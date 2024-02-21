@@ -58,3 +58,11 @@ def rarefy(x, depth=1000, iterations=1, seed=42):
                 (res, np.bincount(choice, minlength=nvar)[np.newaxis, :]))
     # Return the mean of rarefied counts over multiple iterations
     return np.nanmean(res, axis=0)
+
+
+def test_seed_reproducibility_fail():
+    x = np.array([10, 20, 30, 40, 50])
+    rarefied_1 = rarefy(x, depth=50, iterations=1, seed=27)
+    rarefied_2 = rarefy(x, depth=50, iterations=1, seed=35)
+    np.testing.assert_allclose(rarefied_1, rarefied_2, rtol=1e-6)
+
